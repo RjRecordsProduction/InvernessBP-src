@@ -1362,41 +1362,64 @@ int hook_ReportAntiCheatInfo(int a1) {
     return *(unsigned char *)(a1 + 352);
 }
 
-void logVTableCall(const char* name, int a1, int vtableOffset) {
-    uintptr_t vtable = *(uintptr_t *)a1;
-    uintptr_t func = *(uintptr_t *)(vtable + vtableOffset);
-    LOGI(HIDE_STR("[VTABLE] %s -> vtable+%d = %p (UE4+0x%lx)"),
-         name, vtableOffset, (void*)func, func - libUE4header);
+int __fastcall (*orig_ReportVisualField)(int a1, int *a2);
+int __fastcall hook_ReportVisualField(int a1, int *a2) {
+    uint32_t vtFunc = (*(_DWORD *)a1 + 2724);
+    if (vtFunc) {
+        LOGI(HIDE_STR("[VTABLE] ReportPeerVisualFieldActorList -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
+        return 0;
+    }
+    return orig_ReportVisualField(a1, a2);
 }
 
-void (*orig_ReportVisualField)(int a1, int *a2);
-void hook_ReportVisualField(int a1, int *a2) {
-    logVTableCall("ReportPeerVisualFieldActorList", a1, 2724);
+int __fastcall (*orig_ReportCharState)(int a1, int *a2);
+int __fastcall hook_ReportCharState(int a1, int *a2) {
+    uint32_t vtFunc = (*(_DWORD *)a1 + 2624);
+    if (vtFunc) {
+        LOGI(HIDE_STR("[VTABLE] ReportCharacterStateData -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
+        return 0;
+    }
+    return orig_ReportCharState(a1, a2);
 }
 
-void (*orig_ReportCharState)(int a1, int *a2);
-void hook_ReportCharState(int a1, int *a2) {
-    logVTableCall("ReportCharacterStateData", a1, 2624);
+int __fastcall (*orig_ReportSettings)(int a1, int *a2);
+int __fastcall hook_ReportSettings(int a1, int *a2) {
+    uint32_t vtFunc = (*(_DWORD *)a1 + 2632);
+    if (vtFunc) {
+        LOGI(HIDE_STR("[VTABLE] ReportSettingData -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
+        return 0;
+    }
+    return orig_ReportSettings(a1, a2);
 }
 
-void (*orig_ReportSettings)(int a1, int *a2);
-void hook_ReportSettings(int a1, int *a2) {
-    logVTableCall("ReportSettingData", a1, 2632);
+int __fastcall (*orig_SendLog)(int a1, int *a2);
+int __fastcall hook_SendLog(int a1, int *a2) {
+    uint32_t vtFunc = (*(_DWORD *)a1 + 2420);
+    if (vtFunc) {
+        LOGI(HIDE_STR("[VTABLE] SendLog -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
+        return 0;
+    }
+    return orig_SendLog(a1, a2);
 }
 
-void (*orig_SendLog)(int a1, int *a2);
-void hook_SendLog(int a1, int *a2) {
-    logVTableCall("SendLog", a1, 2420);
+int __fastcall (*orig_MicTLog)(int a1, int *a2);
+int __fastcall hook_MicTLog(int a1, int *a2) {
+    uint32_t vtFunc = (*(_DWORD *)a1 + 2476);
+    if (vtFunc) {
+        LOGI(HIDE_STR("[VTABLE] MicphoneTLog -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
+        return 0;
+    }
+    return orig_MicTLog(a1, a2);
 }
 
-void (*orig_MicTLog)(int a1, int *a2);
-void hook_MicTLog(int a1, int *a2) {
-    logVTableCall("MicphoneTLog", a1, 2476);
-}
-
-void (*orig_ShootVerify)(int a1, int *a2);
-void hook_ShootVerify(int a1, int *a2) {
-    logVTableCall("ShootVerifyFailAlarm", a1, 2908);
+int __fastcall (*orig_ShootVerify)(int a1, int *a2);
+int __fastcall hook_ShootVerify(int a1, int *a2) {
+    uint32_t vtFunc = (*(_DWORD *)a1 + 2908);
+    if (vtFunc) {
+        LOGI(HIDE_STR("[VTABLE] ShootVerifyFailAlarm -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
+        return 0;
+    }
+    return orig_ShootVerify(a1, a2);
 }
 
 int (*orig_DisableEmuDetection)(_DWORD *a1, unsigned int a2);
