@@ -1362,78 +1362,19 @@ int hook_ReportAntiCheatInfo(int a1) {
     return *(unsigned char *)(a1 + 352);
 }
 
-int __fastcall (*orig_ReportVisualField)(int a1, int *a2);
-int __fastcall hook_ReportVisualField(int a1, int *a2) {
-    uint32_t vtFunc = (*(_DWORD *)a1 + 2724);
-    if (vtFunc) {
-        LOGI(HIDE_STR("[VTABLE] ReportPeerVisualFieldActorList -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
-        return 0;
-    }
-    return orig_ReportVisualField(a1, a2);
-}
-
-int __fastcall (*orig_ReportCharState)(int a1, int *a2);
-int __fastcall hook_ReportCharState(int a1, int *a2) {
-    uint32_t vtFunc = (*(_DWORD *)a1 + 2624);
-    if (vtFunc) {
-        LOGI(HIDE_STR("[VTABLE] ReportCharacterStateData -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
-        return 0;
-    }
-    return orig_ReportCharState(a1, a2);
-}
-
-int __fastcall (*orig_ReportSettings)(int a1, int *a2);
-int __fastcall hook_ReportSettings(int a1, int *a2) {
-    uint32_t vtFunc = (*(_DWORD *)a1 + 2632);
-    if (vtFunc) {
-        LOGI(HIDE_STR("[VTABLE] ReportSettingData -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
-        return 0;
-    }
-    return orig_ReportSettings(a1, a2);
-}
-
-int __fastcall (*orig_SendLog)(int a1, int *a2);
-int __fastcall hook_SendLog(int a1, int *a2) {
-    uint32_t vtFunc = (*(_DWORD *)a1 + 2420);
-    if (vtFunc) {
-        LOGI(HIDE_STR("[VTABLE] SendLog -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
-        return 0;
-    }
-    return orig_SendLog(a1, a2);
-}
-
-int __fastcall (*orig_MicTLog)(int a1, int *a2);
-int __fastcall hook_MicTLog(int a1, int *a2) {
-    uint32_t vtFunc = (*(_DWORD *)a1 + 2476);
-    if (vtFunc) {
-        LOGI(HIDE_STR("[VTABLE] MicphoneTLog -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
-        return 0;
-    }
-    return orig_MicTLog(a1, a2);
-}
-
-int __fastcall (*orig_ShootVerify)(int a1, int *a2);
-int __fastcall hook_ShootVerify(int a1, int *a2) {
-    uint32_t vtFunc = (*(_DWORD *)a1 + 2908);
-    if (vtFunc) {
-        LOGI(HIDE_STR("[VTABLE] ShootVerifyFailAlarm -> %p (UE4+0x%lx)"), (void*)vtFunc, (uintptr_t)(vtFunc - libUE4header));
-        return 0;
-    }
-    return orig_ShootVerify(a1, a2);
-}
-
 int (*orig_DisableEmuDetection)(_DWORD *a1, unsigned int a2);
 int DisableEmuDetection(_DWORD *a1, unsigned int a2)
 {
     return 0; 
 }
 
-int __fastcall (*sub_46E2044)(int a1, int *a2);
-int __fastcall hook_sub_46E2044(int a1, int *a2)
+int __fastcall (*CoronaLab)(int a1, int *a2);
+int __fastcall hook_CoronaLab(int a1, int *a2)
 {
-       if ((*(_DWORD*)a1 + 0x2E8))
+       uint32_t CoronaLab = (*(_DWORD *)a1 + 748);
+       if(CoronaLab)
       {
-     //   LOGI(HIDE_STR("[SHIELD] Corona Trigger suppressed"));
+         LOGI(HIDE_STR("[SHIELD] Corona Trigger %p"), (void*)(CoronaLab - libUE4header));
          return 0;
       }
     return sub_46E2044(a1, a2);
@@ -1445,7 +1386,7 @@ int __fastcall hook_PlayerKillFlow(int a1, int *a2)
     uint32_t KillFlow = (*(_DWORD *)a1 + 2252);
     if(KillFlow)
     {
-       // LOGI(HIDE_STR("[SHIELD] PlayerKillFlow %p"), (void*)(KillFlow - libUE4header));
+        LOGI(HIDE_STR("[SHIELD] PlayerKillFlow %p"), (void*)(KillFlow - libUE4header));
         return 0;
     }
 
@@ -1590,16 +1531,12 @@ if (pkgName == HIDE_STR("com.pubg.imobile")) {
     GlossHook((void*)(libUE4header + 0x48528E8), (void *)hook_sub_468C488, (void **)&sub_468C488);//fake damage2 4.5
     GlossHook((void*)(libUE4header + 0x336EC94 ),(void*)hook_120FPS,(void**)&o_120FPS);//GetDeviceMaxFPSByDeviceLevel
     GlossHook((void*)(libUE4header + 0x336E888 ),(void*)hook_UHD, NULL); //GetDeviceMaxSupportLevel
+    GlossHook((void*)(libUE4header + 0x48B51C8),(void*)hook_CoronaLab,(void**)&CoronaLab);
+    GlossHook((void*)(libUE4header + 0x3d806a0),(void*)hook_PlayerKillFlow,(void**)&PlayerKillFlow);
  // HOOK_LIB("libUE4.so", "0x44F5584", hlogin_opt, ologin_opt);
 
     GlossHook((void*)(libUE4header + 0x304E8B4), (void*)hook_ReportAntiCheatInfo, (void**)&orig_ReportAntiCheatInfo);
-    GlossHook((void*)(libUE4header + 0x3E4AED0), (void*)hook_ReportVisualField, (void**)&orig_ReportVisualField);
-    GlossHook((void*)(libUE4header + 0x3E4AE10), (void*)hook_ReportCharState, (void**)&orig_ReportCharState);
-    GlossHook((void*)(libUE4header + 0x3E4AF8C), (void*)hook_ReportSettings, (void**)&orig_ReportSettings);
-    GlossHook((void*)(libUE4header + 0x3E4B08C), (void*)hook_SendLog, (void**)&orig_SendLog);
-    GlossHook((void*)(libUE4header + 0x3E4B148), (void*)hook_MicTLog, (void**)&orig_MicTLog);
-    GlossHook((void*)(libUE4header + 0x3D81D48), (void*)hook_ShootVerify, (void**)&orig_ShootVerify);
-    LOGI(HIDE_STR(GREEN "[AC] All RPC snitch hooks installed (7 total)" RESET));
+    LOGI(HIDE_STR(GREEN "[AC] ReportAntiCheatInfo hooked" RESET));
 
     InitGraphicsHooks(libUE4header);
     
