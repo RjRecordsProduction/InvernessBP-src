@@ -1362,6 +1362,43 @@ int hook_ReportAntiCheatInfo(int a1) {
     return *(unsigned char *)(a1 + 352);
 }
 
+void logVTableCall(const char* name, int a1, int vtableOffset) {
+    uintptr_t vtable = *(uintptr_t *)a1;
+    uintptr_t func = *(uintptr_t *)(vtable + vtableOffset);
+    LOGI(HIDE_STR("[VTABLE] %s -> vtable+%d = %p (UE4+0x%lx)"),
+         name, vtableOffset, (void*)func, func - libUE4header);
+}
+
+void (*orig_ReportVisualField)(int a1, int *a2);
+void hook_ReportVisualField(int a1, int *a2) {
+    logVTableCall("ReportPeerVisualFieldActorList", a1, 2724);
+}
+
+void (*orig_ReportCharState)(int a1, int *a2);
+void hook_ReportCharState(int a1, int *a2) {
+    logVTableCall("ReportCharacterStateData", a1, 2624);
+}
+
+void (*orig_ReportSettings)(int a1, int *a2);
+void hook_ReportSettings(int a1, int *a2) {
+    logVTableCall("ReportSettingData", a1, 2632);
+}
+
+void (*orig_SendLog)(int a1, int *a2);
+void hook_SendLog(int a1, int *a2) {
+    logVTableCall("SendLog", a1, 2420);
+}
+
+void (*orig_MicTLog)(int a1, int *a2);
+void hook_MicTLog(int a1, int *a2) {
+    logVTableCall("MicphoneTLog", a1, 2476);
+}
+
+void (*orig_ShootVerify)(int a1, int *a2);
+void hook_ShootVerify(int a1, int *a2) {
+    logVTableCall("ShootVerifyFailAlarm", a1, 2908);
+}
+
 int (*orig_DisableEmuDetection)(_DWORD *a1, unsigned int a2);
 int DisableEmuDetection(_DWORD *a1, unsigned int a2)
 {
@@ -1533,7 +1570,13 @@ if (pkgName == HIDE_STR("com.pubg.imobile")) {
  // HOOK_LIB("libUE4.so", "0x44F5584", hlogin_opt, ologin_opt);
 
     GlossHook((void*)(libUE4header + 0x304E8B4), (void*)hook_ReportAntiCheatInfo, (void**)&orig_ReportAntiCheatInfo);
-    LOGI(HIDE_STR(GREEN "[AC] ReportAntiCheatInfo hooked at 0x304E8B4" RESET));
+    GlossHook((void*)(libUE4header + 0x3E4AED0), (void*)hook_ReportVisualField, (void**)&orig_ReportVisualField);
+    GlossHook((void*)(libUE4header + 0x3E4AE10), (void*)hook_ReportCharState, (void**)&orig_ReportCharState);
+    GlossHook((void*)(libUE4header + 0x3E4AF8C), (void*)hook_ReportSettings, (void**)&orig_ReportSettings);
+    GlossHook((void*)(libUE4header + 0x3E4B08C), (void*)hook_SendLog, (void**)&orig_SendLog);
+    GlossHook((void*)(libUE4header + 0x3E4B148), (void*)hook_MicTLog, (void**)&orig_MicTLog);
+    GlossHook((void*)(libUE4header + 0x3D81D48), (void*)hook_ShootVerify, (void**)&orig_ShootVerify);
+    LOGI(HIDE_STR(GREEN "[AC] All RPC snitch hooks installed (7 total)" RESET));
 
     InitGraphicsHooks(libUE4header);
     
