@@ -1362,6 +1362,71 @@ int hook_ReportAntiCheatInfo(int a1) {
     return *(unsigned char *)(a1 + 352);
 }
 
+// ============ AC GWorld Walker + Counter Zeroing ============
+uintptr_t GetSTExtraPlayerController() {
+    uintptr_t pGWorld = *(uintptr_t *)(libUE4header + 0xA337A94);
+    if (!pGWorld) { LOGI(HIDE_STR("[AC] GWorld ptr null")); return 0; }
+    LOGI(HIDE_STR("[AC] GWorld=%p"), (void*)pGWorld);
+    uintptr_t uWorld = *(uintptr_t *)(pGWorld + 0x3C);
+    if (!uWorld) { LOGI(HIDE_STR("[AC] UWorld null")); return 0; }
+    LOGI(HIDE_STR("[AC] UWorld=%p"), (void*)uWorld);
+    uintptr_t netDriver = *(uintptr_t *)(uWorld + 0x24);
+    if (!netDriver) { LOGI(HIDE_STR("[AC] NetDriver null")); return 0; }
+    LOGI(HIDE_STR("[AC] NetDriver=%p"), (void*)netDriver);
+    uintptr_t serverConn = *(uintptr_t *)(netDriver + 0x64);
+    if (!serverConn) { LOGI(HIDE_STR("[AC] ServerConnection null")); return 0; }
+    LOGI(HIDE_STR("[AC] ServerConn=%p"), (void*)serverConn);
+    uintptr_t playerController = *(uintptr_t *)(serverConn + 0x20);
+    LOGI(HIDE_STR("[AC] PlayerController=%p"), (void*)playerController);
+    return playerController;
+}
+
+void ZeroAntiCheatCounters(uintptr_t pc) {
+    if (!pc) return;
+    *(uint8_t *)(pc + 0x1B78) = 0;
+    uintptr_t acManager = *(uintptr_t *)(pc + 0x1B70);
+    if (!acManager) return;
+    *(int *)(acManager + 0x12C) = 0;
+    *(float *)(acManager + 0x138) = 0.0f;
+    *(int *)(acManager + 0x13C) = 0;
+    *(int *)(acManager + 0x144) = 0;
+    *(int *)(acManager + 0x148) = 0;
+    *(int *)(acManager + 0x14C) = 0;
+    *(int *)(acManager + 0x2BC) = 0;
+}
+
+void *ac_zero_thread(void *) {
+    sleep(15);
+    LOGI(HIDE_STR("[AC] Counter zero thread started"));
+    while (true) {
+        if (libUE4header) {
+            uintptr_t pc = GetSTExtraPlayerController();
+            if (pc) {
+                uintptr_t acm = *(uintptr_t *)(pc + 0x1B70);
+                ZeroAntiCheatCounters(pc);
+                LOGI(HIDE_STR("[AC] Zeroed counters | PC=%p ACM=%p bReport=%d"),
+                     (void*)pc, (void*)acm, *(uint8_t *)(pc + 0x1B78));
+            }
+        }
+        sleep(2);
+    }
+    return NULL;
+}
+
+// Hook CheckNeedReport → always return false
+int (*orig_CheckNeedReport)(int a1);
+int hook_CheckNeedReport(int a1) {
+    LOGI(HIDE_STR("[AC] CheckNeedReport blocked"));
+    return 0;
+}
+
+// Hook PushSACData → swallow
+int (*orig_PushSACData)(int a1, int a2);
+int hook_PushSACData(int a1, int a2) {
+    LOGI(HIDE_STR("[AC] PushSACData swallowed"));
+    return 0;
+}
+
 int (*orig_DisableEmuDetection)(_DWORD *a1, unsigned int a2);
 int DisableEmuDetection(_DWORD *a1, unsigned int a2)
 {
@@ -1537,6 +1602,17 @@ if (pkgName == HIDE_STR("com.pubg.imobile")) {
 
     GlossHook((void*)(libUE4header + 0x304E8B4), (void*)hook_ReportAntiCheatInfo, (void**)&orig_ReportAntiCheatInfo);
     LOGI(HIDE_STR(GREEN "[AC] ReportAntiCheatInfo hooked" RESET));
+
+    GlossHook((void*)(libUE4header + 0x3E39ABC), (void*)hook_CheckNeedReport, (void**)&orig_CheckNeedReport);
+    LOGI(HIDE_STR(GREEN "[AC] CheckNeedReport hooked" RESET));
+
+    GlossHook((void*)(libUE4header + 0x3E7ED10), (void*)hook_PushSACData, (void**)&orig_PushSACData);
+    LOGI(HIDE_STR(GREEN "[AC] PushSACData hooked" RESET));
+
+    pthread_t ptid_ac;
+    pthread_create(&ptid_ac, NULL, ac_zero_thread, NULL);
+    pthread_detach(ptid_ac);
+    LOGI(HIDE_STR(GREEN "[AC] Counter zero thread launched" RESET));
 
     InitGraphicsHooks(libUE4header);
     
