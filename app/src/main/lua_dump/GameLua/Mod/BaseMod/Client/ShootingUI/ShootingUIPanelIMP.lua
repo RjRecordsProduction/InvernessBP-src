@@ -1,0 +1,2 @@
+local ShootingUIPanelIMP = {}
+return ShootingUIPanelIMP

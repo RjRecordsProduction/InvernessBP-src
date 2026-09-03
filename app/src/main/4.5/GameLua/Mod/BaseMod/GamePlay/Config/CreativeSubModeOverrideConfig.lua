@@ -1,0 +1,2 @@
+local CreativeSubModeOverrideConfig = {}
+return CreativeSubModeOverrideConfig

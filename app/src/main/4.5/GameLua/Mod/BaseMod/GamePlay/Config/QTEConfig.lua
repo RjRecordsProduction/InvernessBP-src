@@ -1,0 +1,2 @@
+local QTEConfig = {}
+return QTEConfig

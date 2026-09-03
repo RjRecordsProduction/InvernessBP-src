@@ -1,0 +1,2 @@
+local Config = {}
+return Config

@@ -1,0 +1,2 @@
+local HighlightMomentConfig_SceneShow = {}
+return HighlightMomentConfig_SceneShow

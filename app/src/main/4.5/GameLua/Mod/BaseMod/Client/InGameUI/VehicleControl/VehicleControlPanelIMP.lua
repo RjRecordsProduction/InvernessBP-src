@@ -1,0 +1,2 @@
+local VehicleControlPanelIMP = {}
+return VehicleControlPanelIMP

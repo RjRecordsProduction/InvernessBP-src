@@ -1,0 +1,15 @@
+local RetConfig = {}
+local TableUtil = require("common.table_util")
+local NewbieGuideDailyTask = require("client.slua.logic.ugc.newbie.Config.config_daliy_task_guide_flow")
+TableUtil.MergeTable(RetConfig, NewbieGuideDailyTask)
+local NewbieGuideEnterGame = require("client.slua.logic.ugc.newbie.Config.config_entergame_guide_flow")
+TableUtil.MergeTable(RetConfig, NewbieGuideEnterGame)
+local NewbieGuideTeachingLevel = require("client.slua.logic.ugc.newbie.Config.config_teachinglevel_guide_flow")
+TableUtil.MergeTable(RetConfig, NewbieGuideTeachingLevel)
+local NewbieGuideTeachingLevelNew = require("client.slua.logic.ugc.newbie.Config.config_teachinglevel_guide_flow_new")
+TableUtil.MergeTable(RetConfig, NewbieGuideTeachingLevelNew)
+local config_crystal_incentive_fuide_flow = require("client.slua.logic.ugc.newbie.Config.config_crystal_incentive_fuide_flow")
+TableUtil.MergeTable(RetConfig, config_crystal_incentive_fuide_flow)
+local config_new_entergame_guide_flow = require("client.slua.logic.ugc.newbie.Config.config_new_entergame_guide_flow")
+TableUtil.MergeTable(RetConfig, config_new_entergame_guide_flow)
+return RetConfig

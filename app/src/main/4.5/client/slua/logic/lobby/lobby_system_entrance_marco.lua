@@ -1,0 +1,47 @@
+local lobby_system_entrance_marco = {
+  SystemIDDefine = {
+    ESPORT = 1,
+    CORPS = 2,
+    ALLIANCE_MAIN_PANEL = 3,
+    RANK = 4,
+    PICTORIAL_BOOK = 5,
+    MAIL = 6,
+    SETTING = 7,
+    VLINK_SDK = 8,
+    BAN = 9,
+    NEWTEACHING = 10,
+    COMMUNITY_Helpshift = 11,
+    EGAME_ENTRY = 15,
+    COMMUNITY = 16,
+    LBS_WARZONE = 17,
+    SUPERCORE_ENTRY = 18,
+    XUN_YOU = 19,
+    GONG_CHUANG = 20,
+    KOL_RANK = 21,
+    PREMIUM_HALL = 22,
+    ASSEMBLY = 23
+  },
+  MaincitySystemIDDefine = {
+    ESPORT = 10001,
+    CORPS = 10002,
+    RANK = 10004,
+    MAIL = 10006,
+    SETTING = 10007,
+    VLINK_SDK = 10008,
+    BAN = 10009,
+    COMMUNITY_Helpshift = 10011,
+    EGAME_ENTRY = 10015,
+    COMMUNITY = 10016,
+    LBS_WARZONE = 10017,
+    SUPERCORE_ENTRY = 10018,
+    XUN_YOU = 10019,
+    GONG_CHUANG = 10020,
+    HERO = 10021,
+    REPORT_FEEDBACK = 10022,
+    PREMIUM_HALL = 10023,
+    ASSEMBLY = 10024
+  },
+  PopUIType = {Lobby_Mid_LobbySystemEntrance_UIBP = 1, lobby_system_in_right_bottom = 2},
+  FromType = {Classic = 1, Maincity = 2}
+}
+return lobby_system_entrance_marco

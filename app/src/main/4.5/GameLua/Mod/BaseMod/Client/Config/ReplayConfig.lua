@@ -1,0 +1,2 @@
+local ReplayConfig = {}
+return ReplayConfig

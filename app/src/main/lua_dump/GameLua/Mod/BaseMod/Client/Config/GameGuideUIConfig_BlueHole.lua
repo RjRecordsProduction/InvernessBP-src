@@ -1,0 +1,2 @@
+local GameGuideUIConfig = {}
+return GameGuideUIConfig

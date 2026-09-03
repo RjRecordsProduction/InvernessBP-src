@@ -1,0 +1,2 @@
+local CommonHeroConfig = {}
+return CommonHeroConfig

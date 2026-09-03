@@ -1,0 +1,2 @@
+local UserSettingInMod = {}
+return UserSettingInMod

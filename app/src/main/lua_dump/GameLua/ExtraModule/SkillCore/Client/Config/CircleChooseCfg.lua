@@ -1,0 +1,2 @@
+local CircleChooseCfg = {}
+return CircleChooseCfg

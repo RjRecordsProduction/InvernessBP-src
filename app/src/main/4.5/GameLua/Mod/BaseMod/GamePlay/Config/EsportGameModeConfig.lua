@@ -1,0 +1,25 @@
+local ESportGameModeID = {
+  ["90001"] = true,
+  ["90002"] = true,
+  ["90003"] = true,
+  ["90004"] = true,
+  ["90005"] = true,
+  ["90006"] = true,
+  ["90007"] = true,
+  ["90008"] = true,
+  ["90009"] = true,
+  ["91001"] = true,
+  ["91002"] = true,
+  ["91003"] = true,
+  ["91004"] = true,
+  ["90022"] = true,
+  ["90023"] = true,
+  ["90024"] = true,
+  ["91005"] = true,
+  ["91006"] = true,
+  ["90025"] = true,
+  ["90026"] = true,
+  ["90027"] = true,
+  ["90028"] = true
+}
+return ESportGameModeID

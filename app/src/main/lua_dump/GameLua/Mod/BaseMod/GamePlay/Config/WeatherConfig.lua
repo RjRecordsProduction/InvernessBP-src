@@ -1,0 +1,2 @@
+local WeatherConfig = {}
+return WeatherConfig

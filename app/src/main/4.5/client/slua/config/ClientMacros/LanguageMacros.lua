@@ -1,0 +1,25 @@
+local LanguageMacros = {
+  AR = "ar",
+  DE = "de",
+  EN = "en",
+  ES = "es",
+  FR = "fr",
+  HK = "HK",
+  ID = "id",
+  JA = "ja",
+  KO = "ko",
+  MS = "ms",
+  PT = "pt",
+  RU = "ru",
+  TH = "th",
+  TR = "tr",
+  TW = "TW",
+  VI = "vi",
+  ZH = "zh",
+  HI = "hi",
+  UZ = "uz",
+  UR = "ur",
+  MY = "my",
+  NL = "nl"
+}
+return LanguageMacros

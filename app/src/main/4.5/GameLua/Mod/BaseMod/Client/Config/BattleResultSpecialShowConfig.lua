@@ -1,0 +1,2 @@
+local BattleResultSpecialShowConfig = {}
+return BattleResultSpecialShowConfig

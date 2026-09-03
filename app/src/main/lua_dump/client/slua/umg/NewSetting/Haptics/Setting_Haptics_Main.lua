@@ -1,0 +1,7 @@
+local UI = require("client.slua.umg.NewSetting.Haptics.Setting_Haptics_Config")
+require("client.slua.umg.NewSetting.Haptics.Setting_Haptics_Events")
+require("client.slua.umg.NewSetting.Haptics.Setting_Haptics_Init")
+require("client.slua.umg.NewSetting.Haptics.Setting_Haptics_Refresh")
+local Class = require("class")
+local UIBase = require("client.slua_ui_framework.base")
+return Class(UIBase, nil, UI)

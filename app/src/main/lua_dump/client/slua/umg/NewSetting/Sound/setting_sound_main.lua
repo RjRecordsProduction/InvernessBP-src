@@ -1,0 +1,10 @@
+require("client.slua.umg.NewSetting.Sound.setting_sound_base")
+require("client.slua.umg.NewSetting.Sound.setting_sound_init")
+require("client.slua.umg.NewSetting.Sound.setting_sound_quality")
+require("client.slua.umg.NewSetting.Sound.setting_sound_redPoint")
+require("client.slua.umg.NewSetting.Sound.settting_sound_audio")
+local UI = require("client.slua.umg.NewSetting.Sound.setting_sound_data")
+local Class = require("class")
+local UIBase = require("client.slua_ui_framework.base")
+local UITemplate = Class(UIBase, nil, UI)
+return UITemplate

@@ -1,0 +1,1 @@
+return require("GameLua.Mod.BRMod.Client.Config.BattleResultConfig")

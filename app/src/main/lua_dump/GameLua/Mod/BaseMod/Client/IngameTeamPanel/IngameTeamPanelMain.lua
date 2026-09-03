@@ -1,0 +1,8 @@
+local UI = require("GameLua.Mod.BaseMod.Client.IngameTeamPanel.IngameTeamPanelConfig")
+require("GameLua.Mod.BaseMod.Client.IngameTeamPanel.IngameTeamPanelEvents")
+require("GameLua.Mod.BaseMod.Client.IngameTeamPanel.IngameTeamPanelInit")
+require("GameLua.Mod.BaseMod.Client.IngameTeamPanel.IngameTeamPanelRefresh")
+require("GameLua.Mod.BaseMod.Client.IngameTeamPanel.IngameTeamPanelUtils")
+local class = require("class")
+local ui_base = require("client.slua_ui_framework.base")
+return class(ui_base, nil, UI)

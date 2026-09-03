@@ -1,0 +1,8 @@
+local logic_enhanced_lobby_quality_slap = {}
+function logic_enhanced_lobby_quality_slap.ShouldShowEnhancedLobbyQualitySlap()
+  return false
+end
+function logic_enhanced_lobby_quality_slap.ShowEnhancedLobbyQualitySlap()
+  UIManager.ShowUI(UIManager.UI_Config.Lobby_EnhancedLobbyQualitySlap_UIBP)
+end
+return logic_enhanced_lobby_quality_slap

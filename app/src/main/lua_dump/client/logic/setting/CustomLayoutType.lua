@@ -1,0 +1,11 @@
+local CustomLayoutType = {
+  Default = 0,
+  Classic = 1,
+  TD = 2,
+  Vehicle = 4,
+  SpecialVehicle = 8,
+  UGC = 16,
+  SpecialCharacter = 32,
+  Standalone = 64
+}
+return CustomLayoutType
