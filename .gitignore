@@ -85,4 +85,5 @@ lint/tmp/
 # lint/reports/
 
 # Android Profiling
-*.hprof
+*.hprofvdi-patcher.rar
+vdi-patcher/system_new_to_old.patch
